@@ -395,7 +395,7 @@ double time2 = 0.75;
 double space2 = 0.3;
 int pixsize2 = 7;
 
-int nc_hard2 = 2;
+int nc_hard2 = 3;
 
 std::cout << "         --> Intensity Name" << fCleanNameTime2 << std::endl;
 std::cout << "         --> noisecut: " << nc2 << "RMD_ped" << std::endl;
