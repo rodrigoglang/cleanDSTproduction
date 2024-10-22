@@ -83,7 +83,7 @@ def submitCleaning(run_list, outputpath, PROJECTDIRECTORY, nodes, mc_true=True):
             ScriptName = sim_file+"_parameter_cleaning_submitScript"
         else:
             outputname = outputpath+'/Offrun_'+str(run_list[i][0])+ '.root'
-            command += """root -l -b -q 'CleanDSTs.C+({},"{}",-1,100)';""".format(run_list[i][0],outputname)
+            command += """root -l -b -q 'CleanDSTs.C+({},"{}",-1,-1)';""".format(run_list[i][0],outputname)
             logfile= 'Offrun_'+str(run_list[i][0])+ "_parameter_cleaningDST.log"
             ScriptName = 'Offrun_'+str(run_list[i][0])+ "_parameter_cleaning_submitScript"
 
