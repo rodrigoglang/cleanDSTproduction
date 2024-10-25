@@ -10,6 +10,7 @@ broken_other = 0
 broken_time = 0
 not_submitted = 0
 broken_ROOT = 0
+newlist = []
 for run in runlist:
 
     if not os.path.exists(f"logs/Offrun_{run}_parameter_cleaningDST.log"):
@@ -30,13 +31,16 @@ for run in runlist:
         try:
             check_output(f"grep 'DUE TO TIME LIMIT' logs/*{run}*", shell=True)
             broken_time+=1
+            newlist.append(run)
         except:
             broken_other+=1
+            newlist.append(run)
         continue
 
     if not os.path.exists(f"Cleaned/Offrun_{run}.root"):
 #        print(f"{run}: Non existing file! Check log: logs/Offrun_{run}_parameter_cleaningDST.log")
         broken_ROOT+=1
+        newlist.append(run)
         continue
 
     try:
@@ -44,6 +48,7 @@ for run in runlist:
     except:
         #print(f"{run}: Problem opening file Cleaned/Offrun_{run}.root, even though it exists!")
         broken_ROOT+=1
+        newlist.append(run)
         continue
 
     try:
@@ -51,6 +56,7 @@ for run in runlist:
     except:
         #print(f"{run}: Tailcuts non present in file!")
         broken_ROOT+=1
+        newlist.append(run)
         continue
 
     try:
@@ -58,6 +64,7 @@ for run in runlist:
     except:
         #print(f"{run}: Time cleaning performance not present in file!")
         broken_ROOT+=1
+        newlist.append(run)
         continue
 
     try:
@@ -65,6 +72,7 @@ for run in runlist:
     except:
         #print(f"{run}: Time cleaning detection 3D not present in file!")
         broken_ROOT+=1
+        newlist.append(run)
         continue
 
     try:
@@ -72,6 +80,7 @@ for run in runlist:
     except:
         #print(f"{run}: Time cleaning detection 4D not present in file!")
         broken_ROOT+=1
+        newlist.append(run)
         continue
 
     try:
@@ -79,6 +88,7 @@ for run in runlist:
     except:
         #print(f"{run}: ImPACT intensity data not present in file!")
         broken_ROOT+=1
+        newlist.append(run)
         continue
 
     worked+=1
@@ -90,3 +100,6 @@ print(f"{worked}/{len(runlist)} ({100*worked/len(runlist):.2f}%) finished and wo
 print(f"{broken_time}/{len(runlist)} ({100*broken_time/len(runlist):.2f}%) broke due to time limit")
 print(f"{broken_other}/{len(runlist)} ({100*broken_other/len(runlist):.2f}%) broke due to other reasons, please investigate!")
 print(f"{broken_ROOT}/{len(runlist)} ({100*broken_ROOT/len(runlist):.2f}%) have good looking log files but broken ROOT files! Please investigate!")
+with open(sys.argv[2], 'w') as f:
+    for run in newlist:
+        print(f'{run} 62', file=f)
